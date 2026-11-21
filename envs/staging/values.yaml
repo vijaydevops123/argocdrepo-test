@@ -1,0 +1,4 @@
+replicaCount: 2
+ui:
+  color: "#e67e22"
+  message: "Managed via Helm ApplicationSet - STAGING"

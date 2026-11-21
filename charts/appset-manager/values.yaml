@@ -1,0 +1,13 @@
+git:
+  repoURL: https://github.com/vijaydevops123/argocdrepo-test.git
+  revision: HEAD
+  configPath: "envs/**/config.json"
+
+targetChart:
+  repoURL: https://github.io
+  name: podinfo
+  version: "6.7.0"
+
+project: default
+destinationServer: https://default.svc
+

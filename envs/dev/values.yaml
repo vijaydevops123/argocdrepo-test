@@ -1,0 +1,4 @@
+replicaCount: 1
+ui:
+  color: "#3498db"
+  message: "Managed via Helm ApplicationSet - DEV"

@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-appset-manager
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/vijaydevops123/argocdrepo-test.git
+    targetRevision: HEAD
+    path: charts/appset-manager
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

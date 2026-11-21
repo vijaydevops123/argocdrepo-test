@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Release.Name }}-podinfo
+  namespace: {{ .Release.Namespace }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: {{ .Values.git.repoURL | quote }}
+        revision: {{ .Values.git.revision | quote }}
+        files:
+          - path: {{ .Values.git.configPath | quote }}
+  template:
+    metadata:
+      name: 'podinfo-{{ "{{" }}.env{{ "}}" }}'
+    spec:
+      project: {{ .Values.project }}
+      sources:
+        # Source 1: Target Application Helm Chart
+        - repoURL: {{ .Values.targetChart.repoURL | quote }}
+          chart: {{ .Values.targetChart.name }}
+          targetRevision: {{ .Values.targetChart.version | quote }}
+          helm:
+            releaseName: 'podinfo-{{ "{{" }}.env{{ "}}" }}'
+            valueFiles:
+              - '$values/envs/{{ "{{" }}.env{{ "}}" }}/values.yaml'
+        # Source 2: This Git Repo (for environment values.yaml)
+        - repoURL: {{ .Values.git.repoURL | quote }}
+          targetRevision: {{ .Values.git.revision | quote }}
+          ref: values
+      destination:
+        server: {{ .Values.destinationServer }}
+        namespace: '{{ "{{" }}.namespace{{ "}}" }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
