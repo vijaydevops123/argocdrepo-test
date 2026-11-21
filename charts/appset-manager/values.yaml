@@ -1,5 +1,5 @@
 git:
-  repoURL: https://github.com/vijaydevops123/argocdrepo-test.git
+  repoURL: https://github.com
   revision: HEAD
   configPath: "envs/**/config.json"
 
