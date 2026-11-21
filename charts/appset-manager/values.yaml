@@ -9,5 +9,5 @@ targetChart:
   version: "6.7.0"
 
 project: default
-destinationServer: https://default.svc
+destinationServer: https://kubernetes.default.svc
 
